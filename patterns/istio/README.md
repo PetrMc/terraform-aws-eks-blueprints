@@ -31,10 +31,10 @@ terraform init
 terraform apply --auto-approve
 ```
 
-for Ambient mode set `enable_ambient_mode` variable to `true` when running `apply` command:
+for Ambient mode set `enable_ambient_mode` variable to `true` in `main.tf`:
 
-```sh
-terraform apply -var="enable_ambient_mode=true" --auto-approve
+```text
+enable_ambient_mode = true
 ```
 
 Once the resources have been provisioned, you will need to replace the `istio-ingress` pods due to a [`istiod` dependency issue](https://github.com/istio/istio/issues/35789). Use the following command to perform a rolling restart of the `istio-ingress` pods:
@@ -318,8 +318,8 @@ kubectl port-forward svc/tracing 16686:80 -n istio-system
 
     ```text
     NAME                             READY   STATUS    RESTARTS   AGE
-    helloworld-v1-64674bb6c8-5szqq   1/1     Running   0          26s
-    sleep-5577c64d7c-htrf8           1/1     Running   0          10s
+    helloworld-v1-64674bb6c8-51zqq   1/1     Running   0          26s
+    sleep-5577c64d7c-43rf8           1/1     Running   0          10s
     ```
 5. Connect to `helloworld` app from `sleep` app and verify if the connection uses envoy proxy
 

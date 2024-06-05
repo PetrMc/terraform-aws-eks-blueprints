@@ -37,6 +37,12 @@ locals {
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
+  istio_chart_url     = "https://istio-release.storage.googleapis.com/charts"
+  istio_chart_version = "1.22.0"
+
+  # Set this value to `true` to enable Istio installation in `ambient` mode
+  enable_ambient_mode = false
+
   tags = {
     Blueprint  = local.name
     GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
@@ -45,16 +51,16 @@ locals {
   helm_releases = {
     istio-base = {
       chart         = "base"
-      chart_version = var.istio_chart_version
-      repository    = var.istio_chart_url
+      chart_version = local.istio_chart_version
+      repository    = local.istio_chart_url
       name          = "istio-base"
       namespace     = kubernetes_namespace_v1.istio_system.metadata[0].name
     }
 
     istiod = {
       chart         = "istiod"
-      chart_version = var.istio_chart_version
-      repository    = var.istio_chart_url
+      chart_version = local.istio_chart_version
+      repository    = local.istio_chart_url
       name          = "istiod"
       namespace     = kubernetes_namespace_v1.istio_system.metadata[0].name
 
@@ -65,7 +71,7 @@ locals {
             value = "/dev/stdout"
           }
         ],
-        var.enable_ambient_mode ? [
+        local.enable_ambient_mode ? [
           {
             name  = "profile"
             value = "ambient"
@@ -76,8 +82,8 @@ locals {
 
     istio-ingress = {
       chart            = "gateway"
-      chart_version    = var.istio_chart_version
-      repository       = var.istio_chart_url
+      chart_version    = local.istio_chart_version
+      repository       = local.istio_chart_url
       name             = "istio-ingress"
       namespace        = "istio-ingress"
       create_namespace = true
@@ -101,10 +107,10 @@ locals {
       ]
     }
 
-    istio-cni = var.enable_ambient_mode ? {
+    istio-cni = local.enable_ambient_mode ? {
       chart         = "cni"
-      chart_version = var.istio_chart_version
-      repository    = var.istio_chart_url
+      chart_version = local.istio_chart_version
+      repository    = local.istio_chart_url
       name          = "istio-cni"
       namespace     = kubernetes_namespace_v1.istio_system.metadata[0].name
 
@@ -116,10 +122,10 @@ locals {
       ]
     } : null
 
-    ztunnel = var.enable_ambient_mode ? {
+    ztunnel = local.enable_ambient_mode ? {
       chart         = "ztunnel"
-      chart_version = var.istio_chart_version
-      repository    = var.istio_chart_url
+      chart_version = local.istio_chart_version
+      repository    = local.istio_chart_url
       name          = "ztunnel"
       namespace     = kubernetes_namespace_v1.istio_system.metadata[0].name
     } : null
