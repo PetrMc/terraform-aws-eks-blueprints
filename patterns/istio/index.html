@@ -1470,8 +1470,8 @@
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform<span class="w"> </span>init
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>--auto-approve
 </span></code></pre></div>
-<p>for Ambient mode set <code>enable_ambient_mode</code> variable to <code>true</code> when running <code>apply</code> command:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-var<span class="o">=</span><span class="s2">&quot;enable_ambient_mode=true&quot;</span><span class="w"> </span>--auto-approve
+<p>for Ambient mode set <code>enable_ambient_mode</code> variable to <code>true</code> in <code>main.tf</code>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>enable_ambient_mode = true
 </span></code></pre></div>
 <p>Once the resources have been provisioned, you will need to replace the <code>istio-ingress</code> pods due to a <a href="https://github.com/istio/istio/issues/35789"><code>istiod</code> dependency issue</a>. Use the following command to perform a rolling restart of the <code>istio-ingress</code> pods:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>istio-ingress<span class="w"> </span>-n<span class="w"> </span>istio-ingress
@@ -1713,8 +1713,8 @@ for Ambient mode use:
 </span></code></pre></div>
 In Ambient mode:</p>
 <p><div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>NAME                             READY   STATUS    RESTARTS   AGE
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>helloworld-v1-64674bb6c8-5szqq   1/1     Running   0          26s
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>sleep-5577c64d7c-htrf8           1/1     Running   0          10s
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>helloworld-v1-64674bb6c8-51zqq   1/1     Running   0          26s
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>sleep-5577c64d7c-43rf8           1/1     Running   0          10s
 </span></code></pre></div>
 5. Connect to <code>helloworld</code> app from <code>sleep</code> app and verify if the connection uses envoy proxy</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>sample<span class="w"> </span>-c<span class="w"> </span>sleep<span class="w"> </span><span class="se">\</span>
